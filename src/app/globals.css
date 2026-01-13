@@ -10,9 +10,25 @@
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-serif: var(--font-serif), "DM Serif Display", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-serif: var(--font-serif), "DM Serif Display", serif;
 
   --animate-waft: waft 10s ease-in-out infinite;
+}
+
+:root {
+  --background: #000000;
+  --foreground: #F5F5F7;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans);
+}
+
+/* Force Serif font for all display headings and utility class */
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif) !important;
 }
 
 .dm-serif-display-regular {
@@ -30,21 +46,6 @@
 @keyframes waft {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-20px) rotate(1deg); }
-}
-
-:root {
-  --background: #000000;
-  --foreground: #F5F5F7;
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans);
-}
-
-h1, h2, h3, h4, .font-serif {
-  font-family: var(--font-serif);
 }
 
 /* Grainy Texture */
