@@ -129,3 +129,107 @@ html.lenis {
 .lenis-scrolling iframe {
   pointer-events: none;
 }
+
+/* ================================
+   HERO VIDEO-MASKED TEXT STYLES
+   ================================ */
+
+/* Video-masked text - video plays inside the letters */
+.video-text-mask {
+  position: relative;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Kinetic letter base styles */
+.kinetic-letter {
+  display: inline-block;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Text outline for depth effect */
+.text-outline {
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.08);
+  color: transparent;
+}
+
+/* Parallax layer helper classes */
+.parallax-container {
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+/* Hero-specific atmosphere layer */
+.hero-atmosphere {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 40%,
+    rgba(30, 30, 30, 0.4) 0%,
+    rgba(5, 5, 5, 0.9) 60%,
+    rgba(5, 5, 5, 1) 100%
+  );
+  pointer-events: none;
+}
+
+/* Ethereal glow for text */
+.text-glow {
+  filter: drop-shadow(0 0 60px rgba(255, 255, 255, 0.05));
+}
+
+/* Gentle waft animation for individual letters */
+@keyframes waft-gentle {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) translateX(2px) rotate(0.3deg);
+  }
+  50% {
+    transform: translateY(-5px) translateX(-1px) rotate(-0.2deg);
+  }
+  75% {
+    transform: translateY(-10px) translateX(1px) rotate(0.1deg);
+  }
+}
+
+/* Scroll indicator pulse */
+@keyframes scroll-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.2);
+  }
+}
+
+/* Video reveal animation helper */
+@keyframes video-reveal {
+  from {
+    clip-path: inset(0 0 100% 0);
+    opacity: 0;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .kinetic-letter {
+    animation: none !important;
+  }
+
+  .video-text-mask {
+    background: none;
+    color: var(--color-off-white);
+  }
+}
