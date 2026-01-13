@@ -19,7 +19,7 @@
 - [~] Task: Conductor - User Manual Verification 'Interactive Scent Experience' (Protocol in workflow.md)
 
 ## Phase 4: Polish & Performance [checkpoint: 802c124]
-- [x] Task: Design Overhaul: Audit typography consistency & add visual interest (textures/gradients). (654461d)
+- [x] Task: Design Overhaul: Audit typography consistency & add visual interest (textures/gradients). (683f3d0)
 - [x] Task: Fix Statement Section: Add missing "Recall/Feeling" text lines to scroll sequence. (654461d)
 - [x] Task: Refactor Service Section: Add "The Process" header and enhance scroll motion. (654461d)
 - [x] Task: Redesign Scent Grid: Full-screen agency-style portfolio layout for wide images. (654461d)
