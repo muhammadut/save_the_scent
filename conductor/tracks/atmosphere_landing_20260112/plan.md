@@ -13,7 +13,7 @@
 - [x] Task: Conductor - User Manual Verification 'Immersive Hero & Scrollytelling' (5559f67) (Protocol in workflow.md)
 
 ## Phase 3: Interactive Scent Experience
-- [ ] Task: Create Scent Card Grid component with Framer Motion hover effects.
+- [x] Task: Create Scent Card Grid (db03c58) component with Framer Motion hover effects.
 - [ ] Task: Implement Shared-Element Transitions for full-screen scent immersion.
 - [ ] Task: Add inquiry form with EmailJS integration.
 - [ ] Task: Conductor - User Manual Verification 'Interactive Scent Experience' (Protocol in workflow.md)
