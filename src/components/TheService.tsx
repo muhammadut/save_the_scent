@@ -65,31 +65,31 @@ const TheService = () => {
     >
       <div className="container mx-auto max-w-5xl space-y-48">
         {/* Step 1 */}
-        <div ref={addToRefs} className="group flex flex-col items-start opacity-0">
-          <span className="font-mono text-9xl md:text-[12rem] leading-none text-transparent bg-clip-text bg-gradient-to-b from-zinc-700 to-zinc-900 select-none transition-colors duration-700 group-hover:from-zinc-500 group-hover:to-zinc-800">
-            01
+        <div ref={addToRefs} className="flex flex-col items-start opacity-0">
+          <span className="font-mono text-xs text-gray-500 mb-4 tracking-widest uppercase">
+            01. Arrival
           </span>
-          <h3 className="font-serif text-5xl md:text-7xl font-light -mt-8 md:-mt-16 ml-4 z-10 mix-blend-difference">
+          <h3 className="font-serif text-5xl md:text-7xl font-light z-10 mix-blend-difference">
             We arrive before <br /> your guests do.
           </h3>
         </div>
 
         {/* Step 2 */}
-        <div ref={addToRefs} className="group flex flex-col items-end text-right opacity-0 w-full">
-          <span className="font-mono text-9xl md:text-[12rem] leading-none text-transparent bg-clip-text bg-gradient-to-b from-zinc-700 to-zinc-900 select-none transition-colors duration-700 group-hover:from-zinc-500 group-hover:to-zinc-800">
-            02
+        <div ref={addToRefs} className="flex flex-col items-end text-right opacity-0 w-full">
+          <span className="font-mono text-xs text-gray-500 mb-4 tracking-widest uppercase">
+            02. Activation
           </span>
-          <h3 className="font-serif text-5xl md:text-7xl font-light -mt-8 md:-mt-16 mr-4 z-10 mix-blend-difference">
+          <h3 className="font-serif text-5xl md:text-7xl font-light z-10 mix-blend-difference">
             Set up. Awaken the air. <br /> Disappear.
           </h3>
         </div>
 
         {/* Step 3 */}
-        <div ref={addToRefs} className="group flex flex-col items-start opacity-0">
-          <span className="font-mono text-9xl md:text-[12rem] leading-none text-transparent bg-clip-text bg-gradient-to-b from-zinc-700 to-zinc-900 select-none transition-colors duration-700 group-hover:from-zinc-500 group-hover:to-zinc-800">
-            03
+        <div ref={addToRefs} className="flex flex-col items-start opacity-0">
+          <span className="font-mono text-xs text-gray-500 mb-4 tracking-widest uppercase">
+            03. Transformation
           </span>
-          <h3 className="font-serif text-5xl md:text-7xl font-light -mt-8 md:-mt-16 ml-4 z-10 mix-blend-difference">
+          <h3 className="font-serif text-5xl md:text-7xl font-light z-10 mix-blend-difference">
             The space is <br /> transformed.
           </h3>
         </div>
