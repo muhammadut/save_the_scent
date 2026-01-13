@@ -19,7 +19,10 @@
 - [~] Task: Conductor - User Manual Verification 'Interactive Scent Experience' (Protocol in workflow.md)
 
 ## Phase 4: Polish & Performance
-- [ ] Task: Ensure seamless visual flow between sections (no hard breaks, use gradients/grain).
-- [ ] Task: Optimize scroll performance (LCP/CLS) and add grainy gradient overlays.
-- [ ] Task: Final mobile responsiveness pass.
-- [ ] Task: Conductor - User Manual Verification 'Polish & Performance' (Protocol in workflow.md)
+- [x] Task: Design Overhaul: Audit typography consistency & add visual interest (textures/gradients). (654461d)
+- [x] Task: Fix Statement Section: Add missing "Recall/Feeling" text lines to scroll sequence. (654461d)
+- [x] Task: Refactor Service Section: Add "The Process" header and enhance scroll motion. (654461d)
+- [x] Task: Redesign Scent Grid: Full-screen agency-style portfolio layout for wide images. (654461d)
+- [x] Task: Add Packages Section: Basic () vs Custom tiers. (654461d)
+- [x] Task: Final mobile responsiveness pass. (654461d)
+- [~] Task: Conductor - User Manual Verification 'Polish & Performance' (Protocol in workflow.md)
