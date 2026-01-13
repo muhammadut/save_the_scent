@@ -9,7 +9,7 @@
 ## Phase 2: Immersive Hero & Scrollytelling
 - [x] Task: Implement Hero Section (70b8e24) with optimized video background and mask animations.
 - [x] Task: Build "The Science" (c893c84) scrollytelling section with GSAP ScrollTrigger.
-- [ ] Task: Build "The Service" scrollytelling section with fade/reveal interactions.
+- [x] Task: Build "The Service" (baad38c) scrollytelling section with fade/reveal interactions.
 - [ ] Task: Conductor - User Manual Verification 'Immersive Hero & Scrollytelling' (Protocol in workflow.md)
 
 ## Phase 3: Interactive Scent Experience
@@ -19,6 +19,7 @@
 - [ ] Task: Conductor - User Manual Verification 'Interactive Scent Experience' (Protocol in workflow.md)
 
 ## Phase 4: Polish & Performance
+- [ ] Task: Ensure seamless visual flow between sections (no hard breaks, use gradients/grain).
 - [ ] Task: Optimize scroll performance (LCP/CLS) and add grainy gradient overlays.
 - [ ] Task: Final mobile responsiveness pass.
 - [ ] Task: Conductor - User Manual Verification 'Polish & Performance' (Protocol in workflow.md)
