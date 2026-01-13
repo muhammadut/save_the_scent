@@ -6,7 +6,7 @@
 - [x] Task: Configure global styles (18a5c75) (Typography, Grainy textures, Monochrome palette).
 - [x] Task: Conductor - User Manual Verification 'Foundation & Scaffolding' (1669487) (Protocol in workflow.md)
 
-## Phase 2: Immersive Hero & Scrollytelling
+## Phase 2: Immersive Hero & Scrollytelling [checkpoint: c52764f] [checkpoint: c52764f]
 - [x] Task: Implement Hero Section (70b8e24) with optimized video background and mask animations.
 - [x] Task: Build "The Science" (c893c84) scrollytelling section with GSAP ScrollTrigger.
 - [x] Task: Build "The Service" (baad38c) scrollytelling section with fade/reveal interactions.
