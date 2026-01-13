@@ -7,7 +7,7 @@
 - [x] Task: Conductor - User Manual Verification 'Foundation & Scaffolding' (1669487) (Protocol in workflow.md)
 
 ## Phase 2: Immersive Hero & Scrollytelling
-- [ ] Task: Implement Hero Section with optimized video background and mask animations.
+- [x] Task: Implement Hero Section (70b8e24) with optimized video background and mask animations.
 - [ ] Task: Build "The Science" scrollytelling section with GSAP ScrollTrigger.
 - [ ] Task: Build "The Service" scrollytelling section with fade/reveal interactions.
 - [ ] Task: Conductor - User Manual Verification 'Immersive Hero & Scrollytelling' (Protocol in workflow.md)
