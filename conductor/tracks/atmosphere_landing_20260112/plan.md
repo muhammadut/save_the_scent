@@ -1,7 +1,7 @@
 # Plan: Atmosphere Architect Landing Page
 
 ## Phase 1: Foundation & Scaffolding
-- [~] Task: Initialize Next.js project with TypeScript, Tailwind CSS, and essential directories.
+- [x] Task: Initialize Next.js project (ef3f472) with TypeScript, Tailwind CSS, and essential directories.
 - [ ] Task: Install animation libraries (GSAP, Framer Motion, Lenis).
 - [ ] Task: Configure global styles (Typography, Grainy textures, Monochrome palette).
 - [ ] Task: Conductor - User Manual Verification 'Foundation & Scaffolding' (Protocol in workflow.md)
