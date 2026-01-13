@@ -12,7 +12,7 @@
 - [x] Task: Build "The Service" (baad38c) scrollytelling section with fade/reveal interactions.
 - [x] Task: Conductor - User Manual Verification 'Immersive Hero & Scrollytelling' (5559f67) (Protocol in workflow.md)
 
-## Phase 3: Interactive Scent Experience
+## Phase 3: Interactive Scent Experience [checkpoint: 111bc21]
 - [x] Task: Create Scent Card Grid (db03c58) component with Framer Motion hover effects.
 - [x] Task: Implement Shared-Element Transitions (bed9117) for full-screen scent immersion.
 - [x] Task: Add inquiry form (ff90e9d) with EmailJS integration.
