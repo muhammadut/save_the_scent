@@ -10,9 +10,21 @@
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-serif: var(--font-serif), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-serif: var(--font-serif), "DM Serif Display", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 
   --animate-waft: waft 10s ease-in-out infinite;
+}
+
+.dm-serif-display-regular {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-style: normal;
+}
+
+.dm-serif-display-regular-italic {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-style: italic;
 }
 
 @keyframes waft {

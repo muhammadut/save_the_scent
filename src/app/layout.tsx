@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
+import { Geist, Geist_Mono, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,10 +12,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const cormorantGaramond = Cormorant_Garamond({
+const dmSerifDisplay = DM_Serif_Display({
   variable: "--font-serif",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -31,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${cormorantGaramond.variable} antialiased bg-black text-off-white`}
+        className={`${geistSans.variable} ${geistMono.variable} ${dmSerifDisplay.variable} antialiased bg-black text-off-white`}
       >
         {children}
       </body>
