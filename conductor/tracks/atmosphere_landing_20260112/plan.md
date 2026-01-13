@@ -15,8 +15,8 @@
 ## Phase 3: Interactive Scent Experience
 - [x] Task: Create Scent Card Grid (db03c58) component with Framer Motion hover effects.
 - [x] Task: Implement Shared-Element Transitions (bed9117) for full-screen scent immersion.
-- [ ] Task: Add inquiry form with EmailJS integration.
-- [ ] Task: Conductor - User Manual Verification 'Interactive Scent Experience' (Protocol in workflow.md)
+- [x] Task: Add inquiry form (ff90e9d) with EmailJS integration.
+- [~] Task: Conductor - User Manual Verification 'Interactive Scent Experience' (Protocol in workflow.md)
 
 ## Phase 4: Polish & Performance
 - [ ] Task: Ensure seamless visual flow between sections (no hard breaks, use gradients/grain).
