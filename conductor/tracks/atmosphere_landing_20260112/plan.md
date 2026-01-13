@@ -10,7 +10,7 @@
 - [x] Task: Implement Hero Section (70b8e24) with optimized video background and mask animations.
 - [x] Task: Build "The Science" (c893c84) scrollytelling section with GSAP ScrollTrigger.
 - [x] Task: Build "The Service" (baad38c) scrollytelling section with fade/reveal interactions.
-- [~] Task: Conductor - User Manual Verification 'Immersive Hero & Scrollytelling' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Immersive Hero & Scrollytelling' (5559f67) (Protocol in workflow.md)
 
 ## Phase 3: Interactive Scent Experience
 - [ ] Task: Create Scent Card Grid component with Framer Motion hover effects.
