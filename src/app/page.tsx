@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import TheScience from "@/components/TheScience";
 import TheService from "@/components/TheService";
+import ScentGrid from "@/components/ScentGrid";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <Hero />
       <TheScience />
       <TheService />
+      <ScentGrid />
     </main>
   );
 }
