@@ -18,11 +18,11 @@
 - [x] Task: Add inquiry form (ff90e9d) with EmailJS integration.
 - [~] Task: Conductor - User Manual Verification 'Interactive Scent Experience' (Protocol in workflow.md)
 
-## Phase 4: Polish & Performance
+## Phase 4: Polish & Performance [checkpoint: 802c124]
 - [x] Task: Design Overhaul: Audit typography consistency & add visual interest (textures/gradients). (654461d)
 - [x] Task: Fix Statement Section: Add missing "Recall/Feeling" text lines to scroll sequence. (654461d)
 - [x] Task: Refactor Service Section: Add "The Process" header and enhance scroll motion. (654461d)
 - [x] Task: Redesign Scent Grid: Full-screen agency-style portfolio layout for wide images. (654461d)
 - [x] Task: Add Packages Section: Basic () vs Custom tiers. (654461d)
 - [x] Task: Final mobile responsiveness pass. (654461d)
-- [~] Task: Conductor - User Manual Verification 'Polish & Performance' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Polish & Performance' (802c124)
