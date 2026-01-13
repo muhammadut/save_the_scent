@@ -16,10 +16,13 @@ jest.mock('@gsap/react', () => ({
 }));
 
 describe('The Statement Section', () => {
-  it('renders the core claim', () => {
+  it('renders the core claim and feeling', () => {
     render(<TheScience />);
     
     expect(screen.getByText(/SCENT LINGERS/i)).toBeInTheDocument();
     expect(screen.getByText(/WHERE MOMENTS FADE/i)).toBeInTheDocument();
+    
+    expect(screen.getByText(/Your guests won’t recall every detail/i)).toBeInTheDocument();
+    expect(screen.getByText(/They’ll remember the feeling/i)).toBeInTheDocument();
   });
 });

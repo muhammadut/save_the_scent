@@ -1,32 +1,30 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ScentGrid from './ScentGrid';
 
-// Mock Next/Image
+// Mock Next/Image and Framer Motion
 jest.mock('next/image', () => ({
   __esModule: true,
   default: (props: any) => <img {...props} />,
 }));
 
-// Mock Framer Motion
 jest.mock('framer-motion', () => ({
   motion: {
     div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-    p: ({ children, ...props }: any) => <p {...props}>{children}</p>,
   },
-  AnimatePresence: ({ children }: any) => <>{children}</>,
+  useScroll: () => ({ scrollYProgress: { get: () => 0 } }),
+  useTransform: () => 0,
 }));
 
-describe('ScentGrid Component', () => {
-  it('renders the grid header', () => {
+describe('ScentGrid Portfolio', () => {
+  it('renders the portfolio header', () => {
     render(<ScentGrid />);
-    expect(screen.getByText('The Scents')).toBeInTheDocument();
+    expect(screen.getByText('Selected Fragrances')).toBeInTheDocument();
   });
 
-  it('renders all scent cards', () => {
+  it('renders scent cards', () => {
     render(<ScentGrid />);
     expect(screen.getByText('New York Mystify')).toBeInTheDocument();
     expect(screen.getByText('Dubai Mirage')).toBeInTheDocument();
-    expect(screen.getByText('Black Tie')).toBeInTheDocument();
   });
 });

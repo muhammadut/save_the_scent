@@ -20,10 +20,17 @@ describe('The Service Section', () => {
   it('renders the three service steps with numbers', () => {
     render(<TheService />);
     
-    expect(screen.getByText(/01. Arrival/i)).toBeInTheDocument();
-    expect(screen.getByText(/02. Activation/i)).toBeInTheDocument();
-    expect(screen.getByText(/03. Transformation/i)).toBeInTheDocument();
+    // Check for numbers
+    expect(screen.getByText('01')).toBeInTheDocument();
+    expect(screen.getByText('02')).toBeInTheDocument();
+    expect(screen.getByText('03')).toBeInTheDocument();
 
+    // Check for labels
+    expect(screen.getByText(/Arrival/i)).toBeInTheDocument();
+    expect(screen.getByText(/Activation/i)).toBeInTheDocument();
+    expect(screen.getByText(/Transformation/i)).toBeInTheDocument();
+
+    // Check for descriptions
     expect(screen.getByText(/We arrive before/i)).toBeInTheDocument();
     expect(screen.getByText(/Awaken the air/i)).toBeInTheDocument();
     expect(screen.getByText(/The space is/i)).toBeInTheDocument();
