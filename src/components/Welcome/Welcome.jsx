@@ -1,7 +1,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap/all";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useRef, useEffect, useState, useLayoutEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { welcomeText } from "../../constants/welcome";
 import w1 from "../../assets/welcome-1.png"
 import w2 from "../../assets/welcome-2.png"
@@ -22,7 +22,7 @@ const Welcome = () => {
             resizeTimeout = setTimeout(() => {
                 setAnimationKey(prev => prev + 1);
                 ScrollTrigger.refresh();
-            }, 150);
+            }, 200);
         };
 
         window.addEventListener("resize", handleResize);
@@ -33,78 +33,85 @@ const Welcome = () => {
     }, []);
 
     useGSAP(() => {
-        // Small delay to ensure layout is complete
+        // Wait for fonts and layout to be ready
         const initAnimation = () => {
-            // Reset all word overlays
-            gsap.set(".word-overlay", { clipPath: "inset(0 100% 0 0)" });
+            const wordElements = gsap.utils.toArray(".word");
+            if (wordElements.length === 0) return;
 
-            const wordWrappers = gsap.utils.toArray(".word-wrapper");
-            const wordOverlays = gsap.utils.toArray(".word-overlay");
+            // Get computed line height for accurate tolerance
+            const computedStyle = window.getComputedStyle(textRef.current);
+            const lineHeight = parseFloat(computedStyle.lineHeight) || parseFloat(computedStyle.fontSize) * 1.2;
+            const tolerance = lineHeight * 0.8; // 80% of line height
 
-            if (wordWrappers.length === 0) return;
-
-            // Get line height for tolerance calculation (use larger of computed or 20% of font size)
-            const computedStyle = window.getComputedStyle(wordWrappers[0]);
-            const fontSize = parseFloat(computedStyle.fontSize);
-            const tolerance = Math.max(fontSize * 0.5, 20); // 50% of font size or 20px minimum
-
-            // Group words by line (same Y position within tolerance)
+            // Group words by line using baseline comparison
             const lines = [];
             let currentLine = [];
-            let currentY = wordWrappers[0].getBoundingClientRect().top;
+            let lineBaseY = null;
 
-            wordWrappers.forEach((wrapper, index) => {
-                const rect = wrapper.getBoundingClientRect();
-                if (Math.abs(rect.top - currentY) > tolerance) {
+            wordElements.forEach((word) => {
+                const rect = word.getBoundingClientRect();
+                const wordCenterY = rect.top + rect.height / 2;
+
+                if (lineBaseY === null) {
+                    lineBaseY = wordCenterY;
+                    currentLine.push(word);
+                } else if (Math.abs(wordCenterY - lineBaseY) > tolerance) {
                     // New line detected
                     if (currentLine.length > 0) {
                         lines.push(currentLine);
                     }
-                    currentLine = [wordOverlays[index]];
-                    currentY = rect.top;
+                    currentLine = [word];
+                    lineBaseY = wordCenterY;
                 } else {
-                    currentLine.push(wordOverlays[index]);
+                    currentLine.push(word);
+                    // Update baseline to average for more accuracy
+                    lineBaseY = (lineBaseY + wordCenterY) / 2;
                 }
             });
-            // Push last line
             if (currentLine.length > 0) {
                 lines.push(currentLine);
             }
 
-            // Create timeline with ScrollTrigger
+            // Set initial state - all words dark
+            gsap.set(".word", { color: "#2A2725" });
+
+            // Create master timeline
             const tl = gsap.timeline({
                 scrollTrigger: {
-                    trigger: ".welcome-text",
+                    trigger: textRef.current,
                     start: "top 80%",
-                    end: "bottom 70%",
-                    scrub: 0.3,
+                    end: "bottom 50%",
+                    scrub: true, // Direct 1:1 scroll mapping
                     invalidateOnRefresh: true,
-                    // markers: true
                 },
             });
 
-            // Animate line by line - all words on a line animate together instantly
+            // Calculate total progress points
+            const totalLines = lines.length;
+
+            // Animate each line - color transition from dark to light
             lines.forEach((lineWords, lineIndex) => {
+                const startProgress = lineIndex / totalLines;
+                const endProgress = (lineIndex + 1) / totalLines;
+
                 tl.to(lineWords, {
-                    clipPath: "inset(0 0% 0 0)",
-                    duration: 0.5,
-                    ease: "power2.out",
-                }, lineIndex * 0.5);
+                    color: "#f4efe7",
+                    duration: endProgress - startProgress,
+                    ease: "none",
+                    force3D: true,
+                }, startProgress);
             });
 
             return tl;
         };
 
-        // Use requestAnimationFrame to ensure DOM is ready
-        let tl;
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                tl = initAnimation();
-            });
-        });
+        // Small delay to ensure layout is complete
+        const timeoutId = setTimeout(() => {
+            initAnimation();
+        }, 50);
 
         return () => {
-            if (tl) tl.kill();
+            clearTimeout(timeoutId);
         };
     }, { scope: containerRef, dependencies: [animationKey] });
 
@@ -115,10 +122,7 @@ const Welcome = () => {
                     <p ref={textRef} className="welcome-text md:leading-[1.05] leading-[1.1] md:tracking-[-0.020em] tracking-[-0.010em]">
                         {words.map((word, index) => (
                             <span key={index}>
-                                <span className="word-wrapper">
-                                    <span className="word-base">{word}</span>
-                                    <span className="word-overlay">{word}</span>
-                                </span>
+                                <span className="word" style={{ color: "#2A2725" }}>{word}</span>
                                 {index < words.length - 1 && " "}
                             </span>
                         ))}
