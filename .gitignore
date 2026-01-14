@@ -34,3 +34,12 @@ dist-ssr
 # yarn.lock
 # pnpm-lock.yaml
 # package-lock.json
+
+# Ideas/reference images
+ideas/
+
+# Playwright MCP
+.playwright-mcp/
+
+# Claude settings
+.claude/
