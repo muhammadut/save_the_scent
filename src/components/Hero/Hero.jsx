@@ -1,110 +1,277 @@
+import { useRef } from "react";
 import gsap from "gsap/all";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import smoke from "../../assets/smoke_final.mp4";
-import mobileHeroBg from "../../assets/hero-mobile.png";
+import heroVideo from "../../assets/landing_page.mp4";
 import { useGSAP } from "@gsap/react";
 import { useMediaQuery } from "react-responsive";
 import { BsArrowUpRight } from "react-icons/bs";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Hero = () => {
+  const heroRef = useRef(null);
+  const reserveBtnRef = useRef(null);
+
   const isMobHero = useMediaQuery({
     query: "(max-width:768px)",
   });
 
+  // Magnetic button effect
+  const handleMouseMove = (e, btnRef) => {
+    if (!btnRef.current) return;
+    const btn = btnRef.current;
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    gsap.to(btn, {
+      x: x * 0.3,
+      y: y * 0.3,
+      duration: 0.4,
+      ease: "power2.out"
+    });
+  };
+
+  const handleMouseLeave = (btnRef) => {
+    if (!btnRef.current) return;
+    gsap.to(btnRef.current, {
+      x: 0,
+      y: 0,
+      duration: 0.7,
+      ease: "elastic.out(1, 0.3)"
+    });
+  };
+
   useGSAP(() => {
-    if (!isMobHero) {
-      gsap.to(".hero-section .hero-bg", {
-        yPercent: "-5",
-        scale: 1.1,
-        ease: "power1.inOut",
-        scrollTrigger: {
-          trigger: ".hero-section",
-          start: "top top",
-          end: "bottom top",
-          scrub: 1.5,
-        },
+    const ctx = gsap.context(() => {
+      // Initial states
+      gsap.set(".hero-title-word", {
+        yPercent: 100,
+        opacity: 0,
+        rotateX: -90
       });
-    }
+      gsap.set(".hero-subtitle-line", {
+        yPercent: 100,
+        opacity: 0
+      });
+      gsap.set(".hero-description", {
+        opacity: 0,
+        y: 20
+      });
+      gsap.set(".hero-btn", {
+        opacity: 0,
+        scale: 0.8
+      });
+      gsap.set(".scroll-indicator", {
+        opacity: 0,
+        y: -20
+      });
+
+      // Main timeline
+      const tl = gsap.timeline({
+        delay: 0.5,
+        defaults: { ease: "power3.out" }
+      });
+
+      // Title words staggered reveal
+      tl.to(".hero-title-word", {
+        yPercent: 0,
+        opacity: 1,
+        rotateX: 0,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: "power4.out"
+      })
+      // Subtitle lines
+      .to(".hero-subtitle-line", {
+        yPercent: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.1
+      }, "-=0.6")
+      // Description
+      .to(".hero-description", {
+        opacity: 1,
+        y: 0,
+        duration: 0.8
+      }, "-=0.4")
+      // Buttons
+      .to(".hero-btn", {
+        opacity: 1,
+        scale: 1,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "back.out(1.7)"
+      }, "-=0.4")
+      // Scroll indicator
+      .to(".scroll-indicator", {
+        opacity: 1,
+        y: 0,
+        duration: 0.6
+      }, "-=0.2");
+
+      // Scroll indicator bounce animation
+      gsap.to(".scroll-indicator-arrow", {
+        y: 8,
+        duration: 1.2,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut"
+      });
+
+      // Parallax on scroll
+      if (!isMobHero) {
+        gsap.to(".hero-bg", {
+          yPercent: -10,
+          scale: 1.15,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".hero-section",
+            start: "top top",
+            end: "bottom top",
+            scrub: 1.5,
+          },
+        });
+
+        // Title parallax
+        gsap.to(".hero-title-container", {
+          yPercent: -50,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".hero-section",
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      }
+    }, heroRef);
+
+    return () => ctx.revert();
   }, [isMobHero]);
 
   return (
-    <section className="hero-section w-full h-[100dvh] relative overflow-hidden bg-[#181717] p-4 md:p-6">
+    <section
+      ref={heroRef}
+      className="hero-section w-full h-[100dvh] relative overflow-hidden bg-[#181717] p-3 md:p-5"
+    >
       {/* Main Container - Rounded Corners */}
-      <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden">
+      <div className="relative w-full h-full rounded-[2rem] md:rounded-[2.5rem] overflow-hidden">
 
-        {/* Background Layers */}
-        <div className="hero-bg absolute inset-0 w-full h-full">
-          {/* Desktop Background */}
-          <div className="absolute inset-0 bg-[url('./assets/cap1.png')] bg-no-repeat bg-cover bg-center hidden md:block" />
-
-          {/* Mobile Background */}
-          <div className="absolute inset-0 md:hidden">
-            <img
-              src={mobileHeroBg}
-              alt="mobile bg"
-              className="w-full h-full object-cover"
-            />
-          </div>
+        {/* Background Video */}
+        <div className="hero-bg absolute inset-0 w-full h-full z-0">
+          <video
+            src={heroVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover object-center scale-105"
+          ></video>
+          {/* Subtle vignette overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
         </div>
 
-        {/* Smoke Video Overlay - Separate layer */}
+        {/* Smoke Video Overlay */}
         <video
           src={smoke}
           autoPlay
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none mix-blend-hard-light opacity-50 z-10"
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none mix-blend-soft-light opacity-40 z-10"
         ></video>
 
         {/* Content Overlay */}
-        <div className="absolute inset-0 z-20 pointer-events-none p-6 md:p-10">
+        <div className="absolute inset-0 z-20 pointer-events-none p-5 md:p-10 flex flex-col">
 
-          {/* TOP LEFT - Main Title */}
-          {/* TOP LEFT - Main Title - FIXED: Reduced size */}
-          <h1 className="absolute top-2 left-4 md:top-3 md:left-6 text-[#f4efe7] font-medium tracking-tighter leading-[0.8] text-[15vw] md:text-[11rem] pointer-events-auto select-none">
-            Capsules<span className="text-[4vw] md:text-6xl align-top ml-1 inline-block -translate-y-1">®</span>
-          </h1>
-
-          {/* TOP RIGHT - Reserve Button */}
-          <div className="absolute top-6 right-6 md:top-8 md:right-8 pointer-events-auto">
-            <button className="hidden md:flex items-center gap-3 bg-[#f4efe7] text-black pl-5 pr-2 py-2 rounded-full font-medium hover:scale-105 transition-transform duration-300">
-              <span className="text-sm tracking-wide">Reserve</span>
-              <div className="bg-[#181717] text-white rounded-full w-8 h-8 flex items-center justify-center">
-                <BsArrowUpRight size={14} />
-              </div>
-            </button>
-          </div>
-
-          {/* BOTTOM LEFT - Headline */}
-          <div className="absolute bottom-20 left-6 md:bottom-8 md:left-8 text-[#f4efe7] pointer-events-auto">
-            <h2 className="text-4xl md:text-[3.8rem] font-medium leading-[1] tracking-tighter">
-              Closer to <br />
-              Nature—Closer <br />
-              to Yourself
-            </h2>
-          </div>
-
-          {/* BOTTOM CENTER - Menu Button - NEW */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-auto hidden md:block">
-            <button className="flex items-center gap-3 bg-[#f4efe7] text-black px-6 py-3 rounded-full font-medium hover:scale-105 transition-transform duration-300">
-              <span className="text-sm tracking-wide uppercase">Menu</span>
-              <div className="bg-[#181717] text-white rounded-full w-6 h-6 flex items-center justify-center">
-                <div className="flex flex-col gap-[3px]">
-                  <span className="w-3 h-[1px] bg-white"></span>
-                  <span className="w-3 h-[1px] bg-white"></span>
+          {/* TOP ROW - Reserve Button Only */}
+          <div className="flex justify-end items-start">
+            {/* Reserve Button */}
+            <div
+              ref={reserveBtnRef}
+              className="hero-btn pointer-events-auto hidden md:block"
+              onMouseMove={(e) => handleMouseMove(e, reserveBtnRef)}
+              onMouseLeave={() => handleMouseLeave(reserveBtnRef)}
+            >
+              <button className="group flex items-center gap-3 bg-[#faf8f5]/95 backdrop-blur-sm text-[#181717] pl-6 pr-2.5 py-2.5 rounded-full font-medium transition-all duration-500 hover:bg-[#e8b4b8] hover:pl-7 hover:gap-4">
+                <span className="text-sm tracking-wide transition-all duration-300 group-hover:tracking-wider">Reserve</span>
+                <div className="bg-[#181717] text-white rounded-full w-9 h-9 flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
+                  <BsArrowUpRight size={14} />
                 </div>
-              </div>
-            </button>
+              </button>
+            </div>
           </div>
 
-          {/* BOTTOM RIGHT - Description */}
-          <div className="absolute bottom-20 right-6 md:bottom-8 md:right-8 text-[#f4efe7] text-right pointer-events-auto">
-            <p className="text-sm md:text-[1.1rem] font-normal leading-tight opacity-95 max-w-[300px] md:max-w-md tracking-tight">
-              Spend unforgettable and remarkable time <br className="hidden md:block" />
-              in the Californian desert with—Capsules.
-            </p>
+          {/* CENTER - Main Title */}
+          <div className="flex-1 flex items-center justify-center">
+            <div className="hero-title-container pointer-events-auto text-center">
+              <h1 className="text-[#faf8f5] font-medium tracking-[-0.04em] leading-[0.95] text-[14vw] md:text-[6rem] lg:text-[7.5rem] select-none overflow-hidden">
+                <span className="flex flex-wrap justify-center gap-x-[0.2em]">
+                  {["Save", "The", "Scent"].map((word, i) => (
+                    <span key={i} className="overflow-hidden inline-block">
+                      <span
+                        className="hero-title-word inline-block"
+                        style={{
+                          background: i === 2 ? "linear-gradient(135deg, #faf8f5 0%, #e8b4b8 50%, #faf8f5 100%)" : "none",
+                          WebkitBackgroundClip: i === 2 ? "text" : "unset",
+                          WebkitTextFillColor: i === 2 ? "transparent" : "#faf8f5",
+                          backgroundSize: i === 2 ? "200% 200%" : "unset",
+                        }}
+                      >
+                        {word}
+                      </span>
+                    </span>
+                  ))}
+                  <span className="overflow-hidden inline-block align-top">
+                    <span className="hero-title-word inline-block text-[3.5vw] md:text-[1.4rem] text-[#e8b4b8] align-super relative -top-[0.2em] ml-1">®</span>
+                  </span>
+                </span>
+              </h1>
+            </div>
+          </div>
+
+          {/* BOTTOM ROW */}
+          <div className="flex justify-between items-end">
+            {/* Headline with line-by-line animation */}
+            <div className="pointer-events-auto max-w-[420px]">
+              <h2 className="text-[#faf8f5] text-xl md:text-[1.8rem] lg:text-[2.2rem] font-medium leading-[1.15] tracking-[-0.02em]">
+                <span className="overflow-hidden block">
+                  <span className="hero-subtitle-line block">Transform Any Venue</span>
+                </span>
+                <span className="overflow-hidden block">
+                  <span className="hero-subtitle-line block">
+                    Into A <span className="text-[#e8b4b8]">Feeling</span>.
+                  </span>
+                </span>
+              </h2>
+            </div>
+
+            {/* Center - Scroll Indicator Only */}
+            <div className="absolute bottom-5 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center">
+              {/* Scroll Indicator */}
+              <div className="scroll-indicator hidden md:flex flex-col items-center gap-2 text-[#faf8f5]/70">
+                <span className="text-[10px] tracking-[0.3em] uppercase">Scroll</span>
+                <div className="scroll-indicator-arrow w-[1px] h-8 bg-gradient-to-b from-[#faf8f5]/70 to-transparent"></div>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="hero-description pointer-events-auto text-right max-w-[280px] md:max-w-sm">
+              <p className="text-[#faf8f5]/85 text-xs md:text-sm font-light leading-relaxed tracking-wide">
+                Luxury scent diffuser rentals for weddings
+                <br className="hidden md:block" />
+                <span className="md:hidden"> </span>
+                and events that leave lasting impressions.
+              </p>
+            </div>
           </div>
         </div>
+
+        {/* Decorative corner accents */}
+        <div className="absolute top-8 left-8 w-16 h-16 border-l border-t border-[#faf8f5]/20 rounded-tl-2xl z-20 pointer-events-none hidden md:block"></div>
+        <div className="absolute bottom-8 right-8 w-16 h-16 border-r border-b border-[#faf8f5]/20 rounded-br-2xl z-20 pointer-events-none hidden md:block"></div>
       </div>
     </section>
   );
