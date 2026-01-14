@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import gsap from "gsap/all";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import smoke from "../../assets/smoke_final.mp4";
-import heroVideo from "../../assets/landing_page.mp4";
+import heroVideo from "/assets/video/landing_page.mp4";
 import { useGSAP } from "@gsap/react";
 import { useMediaQuery } from "react-responsive";
 import { BsArrowUpRight } from "react-icons/bs";

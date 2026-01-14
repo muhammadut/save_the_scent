@@ -3,8 +3,8 @@ import gsap from "gsap/all";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef, useEffect, useState } from "react";
 import { welcomeText } from "../../constants/welcome";
-import w1 from "../../assets/welcome-1.png"
-import w2 from "../../assets/welcome-2.png"
+import oval1 from "/images/oval_1.jpg";
+import oval2 from "/images/oval_2.jpg";
 
 const Welcome = () => {
     const containerRef = useRef(null);
@@ -133,7 +133,7 @@ const Welcome = () => {
                 {/* Images side by side, edges touching */}
                 <div className="flex flex-shrink-0 items-center">
                     <img
-                        src={w1}
+                        src={oval1}
                         alt="welcome image"
                         className="object-cover z-10"
                         style={{
@@ -144,7 +144,7 @@ const Welcome = () => {
                         }}
                     />
                     <img
-                        src={w2}
+                        src={oval2}
                         alt="welcome image"
                         className="object-cover"
                         style={{
