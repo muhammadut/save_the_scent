@@ -129,12 +129,32 @@ const Welcome = () => {
                     </p>
                 </div>
             </div>
-            <div className="md:mt-16 mt-10 flex md:flex-row flex-col md:items-center items-start justify-between gap-6">
-                <div className="flex flex-row gap-2 flex-shrink-0">
-                    <img src={w1} alt="welcome image" className="rounded-full md:w-40 md:h-40 w-28 h-28 object-cover" />
-                    <img src={w2} alt="welcome image" className="rounded-full md:w-40 md:h-40 w-28 h-28 object-cover" />
+            <div className="md:mt-20 mt-12 flex md:flex-row flex-col md:items-center items-start justify-between gap-8">
+                {/* Images side by side, edges touching */}
+                <div className="flex flex-shrink-0 items-center">
+                    <img
+                        src={w1}
+                        alt="welcome image"
+                        className="object-cover z-10"
+                        style={{
+                            width: 'clamp(200px, 22vw, 340px)',
+                            height: 'clamp(130px, 14vw, 220px)',
+                            borderRadius: '9999px',
+                            marginRight: '3px',
+                        }}
+                    />
+                    <img
+                        src={w2}
+                        alt="welcome image"
+                        className="object-cover"
+                        style={{
+                            width: 'clamp(200px, 22vw, 340px)',
+                            height: 'clamp(130px, 14vw, 220px)',
+                            borderRadius: '9999px',
+                        }}
+                    />
                 </div>
-                <p className="md:text-[1.4rem] text-[1rem] text-[#b1a696] leading-[1.35] font-normal tracking-[-0.01em] md:text-right text-left italic">
+                <p className="md:text-[1.7rem] text-[1.2rem] text-[#b1a696] leading-[1.35] font-normal tracking-[-0.01em] md:mr-12 mt-8 md:mt-0 self-center" style={{ fontStyle: 'normal' }}>
                     <span className="block">Scent lingers where moments fade.</span>
                     <span className="block">Your guests won't remember every detail.</span>
                     <span className="block">They'll remember the feeling.</span>
