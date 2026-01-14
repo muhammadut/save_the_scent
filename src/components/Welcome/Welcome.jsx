@@ -154,7 +154,7 @@ const Welcome = () => {
                         }}
                     />
                 </div>
-                <p className="md:text-[1.7rem] text-[1.2rem] text-[#b1a696] leading-[1.35] font-normal tracking-[-0.01em] md:mr-12 mt-8 md:mt-0 self-center" style={{ fontStyle: 'normal' }}>
+                <p className="md:text-[1.7rem] text-[1.2rem] text-[#D4896A] leading-[1.35] font-normal tracking-[-0.01em] md:mr-12 mt-8 md:mt-0 self-center" style={{ fontStyle: 'normal' }}>
                     <span className="block">Scent lingers where moments fade.</span>
                     <span className="block">Your guests won't remember every detail.</span>
                     <span className="block">They'll remember the feeling.</span>

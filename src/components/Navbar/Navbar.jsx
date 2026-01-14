@@ -37,7 +37,7 @@ const Navbar = () => {
       onMouseLeave={handleMouseLeave}
       className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 pointer-events-auto"
     >
-      <button className="group flex items-center gap-3 bg-[#faf8f5]/95 backdrop-blur-sm text-[#181717] px-6 py-3 rounded-full font-medium transition-all duration-500 hover:bg-[#D4A5A5] hover:gap-4 shadow-2xl">
+      <button className="group flex items-center gap-3 bg-[#faf8f5]/95 backdrop-blur-sm text-[#181717] px-6 py-3 rounded-full font-medium transition-all duration-500 hover:bg-[#D4896A] hover:gap-4 shadow-2xl">
         <span className="text-sm tracking-wide uppercase transition-all duration-300 group-hover:tracking-widest">Menu</span>
         <div className="bg-[#181717] text-white rounded-full w-8 h-8 flex items-center justify-center overflow-hidden">
           <div className="flex flex-col gap-[4px] transition-all duration-300 group-hover:gap-[6px]">
