@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import gsap from "gsap/all";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import smoke from "../../assets/smoke_final.mp4";
@@ -12,10 +12,37 @@ gsap.registerPlugin(ScrollTrigger);
 const Hero = () => {
   const heroRef = useRef(null);
   const reserveBtnRef = useRef(null);
+  const turbulenceRef = useRef(null);
 
   const isMobHero = useMediaQuery({
     query: "(max-width:768px)",
   });
+
+  // Animate smoke turbulence for living, breathing effect
+  useEffect(() => {
+    let animationId;
+    let frames = 0;
+    const rad = Math.PI / 180;
+
+    function animateSmoke() {
+      frames += 0.35;
+      const bfx = 0.008 + 0.003 * Math.cos(frames * rad);
+      const bfy = 0.012 + 0.004 * Math.sin(frames * rad * 1.5);
+
+      if (turbulenceRef.current) {
+        turbulenceRef.current.setAttribute('baseFrequency', `${bfx} ${bfy}`);
+      }
+      animationId = requestAnimationFrame(animateSmoke);
+    }
+
+    animateSmoke();
+
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    };
+  }, []);
 
   // Magnetic button effect
   const handleMouseMove = (e, btnRef) => {
@@ -63,9 +90,9 @@ const Hero = () => {
         opacity: 0,
         scale: 0.8
       });
-      gsap.set(".scroll-indicator", {
-        opacity: 0,
-        y: -20
+      gsap.set(".scroll-line", {
+        scaleY: 0,
+        transformOrigin: "top"
       });
 
       // Main timeline
@@ -104,20 +131,19 @@ const Hero = () => {
         stagger: 0.1,
         ease: "back.out(1.7)"
       }, "-=0.4")
-      // Scroll indicator
-      .to(".scroll-indicator", {
-        opacity: 1,
-        y: 0,
-        duration: 0.6
+      // Scroll line reveal
+      .to(".scroll-line", {
+        scaleY: 1,
+        duration: 0.8,
+        ease: "power2.out"
       }, "-=0.2");
 
-      // Scroll indicator bounce animation
-      gsap.to(".scroll-indicator-arrow", {
-        y: 8,
-        duration: 1.2,
+      // Scroll line pulse animation
+      gsap.to(".scroll-line-inner", {
+        y: 24,
+        duration: 1.5,
         repeat: -1,
-        yoyo: true,
-        ease: "power1.inOut"
+        ease: "power1.inOut",
       });
 
       // Parallax on scroll
@@ -151,13 +177,42 @@ const Hero = () => {
     return () => ctx.revert();
   }, [isMobHero]);
 
+  // Text shadow style for better readability
+  const textShadow = "0 2px 4px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.1)";
+  // Enhanced shadow for "Scent" to lift it off smoke/bright frames
+  const scentShadow = "0 2px 20px rgba(0,0,0,0.35), 0 4px 8px rgba(0,0,0,0.2)";
+
   return (
     <section
       ref={heroRef}
       className="hero-section w-full h-[100dvh] relative overflow-hidden bg-[#181717] p-3 md:p-5"
     >
-      {/* Main Container - Rounded Corners */}
-      <div className="relative w-full h-full rounded-[2rem] md:rounded-[2.5rem] overflow-hidden">
+      {/* SVG Filters for Smoke Effect */}
+      <svg className="absolute w-0 h-0">
+        <defs>
+          {/* Animated Smoke Distortion Filter */}
+          <filter id="smoke-distort" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence
+              ref={turbulenceRef}
+              type="fractalNoise"
+              baseFrequency="0.008 0.012"
+              numOctaves="3"
+              result="noise"
+              seed="15"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="noise"
+              scale="20"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </defs>
+      </svg>
+
+      {/* Main Container - Rounded Corners with Inner Border */}
+      <div className="relative w-full h-full rounded-[2rem] md:rounded-[2.5rem] overflow-hidden ring-1 ring-inset ring-[#faf8f5]/10">
 
         {/* Background Video */}
         <div className="hero-bg absolute inset-0 w-full h-full z-0">
@@ -169,9 +224,21 @@ const Hero = () => {
             playsInline
             className="absolute inset-0 w-full h-full object-cover object-center scale-105"
           ></video>
-          {/* Subtle vignette overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
         </div>
+
+        {/* Radial Vignette Overlay - darkens edges especially bottom corners */}
+        <div
+          className="absolute inset-0 z-[5] pointer-events-none"
+          style={{
+            background: `
+              radial-gradient(ellipse 80% 60% at 50% 40%, transparent 0%, rgba(0,0,0,0.15) 100%),
+              linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 40%),
+              linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, transparent 30%),
+              linear-gradient(135deg, rgba(0,0,0,0.3) 0%, transparent 50%),
+              linear-gradient(225deg, rgba(0,0,0,0.3) 0%, transparent 50%)
+            `
+          }}
+        ></div>
 
         {/* Smoke Video Overlay */}
         <video
@@ -195,7 +262,7 @@ const Hero = () => {
               onMouseMove={(e) => handleMouseMove(e, reserveBtnRef)}
               onMouseLeave={() => handleMouseLeave(reserveBtnRef)}
             >
-              <button className="group flex items-center gap-3 bg-[#faf8f5]/95 backdrop-blur-sm text-[#181717] pl-6 pr-2.5 py-2.5 rounded-full font-medium transition-all duration-500 hover:bg-[#e8b4b8] hover:pl-7 hover:gap-4">
+              <button className="group flex items-center gap-3 bg-[#faf8f5]/95 backdrop-blur-sm text-[#181717] pl-6 pr-2.5 py-2.5 rounded-full font-medium transition-all duration-500 hover:bg-[#D4896A] hover:pl-7 hover:gap-4">
                 <span className="text-sm tracking-wide transition-all duration-300 group-hover:tracking-wider">Reserve</span>
                 <div className="bg-[#181717] text-white rounded-full w-9 h-9 flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
                   <BsArrowUpRight size={14} />
@@ -207,25 +274,27 @@ const Hero = () => {
           {/* CENTER - Main Title */}
           <div className="flex-1 flex items-center justify-center">
             <div className="hero-title-container pointer-events-auto text-center">
-              <h1 className="text-[#faf8f5] font-medium tracking-[-0.04em] leading-[0.95] text-[14vw] md:text-[6rem] lg:text-[7.5rem] select-none overflow-hidden">
+              <h1
+                className="text-[#faf8f5] font-semibold tracking-[-0.02em] leading-[0.92] text-[14vw] md:text-[6.5rem] lg:text-[8rem] select-none"
+                style={{ textShadow }}
+              >
                 <span className="flex flex-wrap justify-center gap-x-[0.2em]">
-                  {["Save", "The", "Scent"].map((word, i) => (
+                  {["Save", "The"].map((word, i) => (
                     <span key={i} className="overflow-hidden inline-block">
-                      <span
-                        className="hero-title-word inline-block"
-                        style={{
-                          background: i === 2 ? "linear-gradient(135deg, #faf8f5 0%, #e8b4b8 50%, #faf8f5 100%)" : "none",
-                          WebkitBackgroundClip: i === 2 ? "text" : "unset",
-                          WebkitTextFillColor: i === 2 ? "transparent" : "#faf8f5",
-                          backgroundSize: i === 2 ? "200% 200%" : "unset",
-                        }}
-                      >
+                      <span className="hero-title-word inline-block text-[#faf8f5]">
                         {word}
                       </span>
                     </span>
                   ))}
-                  <span className="overflow-hidden inline-block align-top">
-                    <span className="hero-title-word inline-block text-[3.5vw] md:text-[1.4rem] text-[#e8b4b8] align-super relative -top-[0.2em] ml-1">®</span>
+                  {/* Scent with animated smoke filter + ® */}
+                  <span className="overflow-hidden inline-block">
+                    <span
+                      className="hero-title-word inline-block text-[#D4896A] relative"
+                      style={{ filter: 'url(#smoke-distort)', textShadow: scentShadow }}
+                    >
+                      Scent
+                      <sup className="absolute -top-[0.05em] -right-[0.35em] text-[0.18em] text-[#faf8f5]/60 font-normal tracking-normal">®</sup>
+                    </span>
                   </span>
                 </span>
               </h1>
@@ -233,33 +302,40 @@ const Hero = () => {
           </div>
 
           {/* BOTTOM ROW */}
-          <div className="flex justify-between items-end">
+          <div className="flex justify-between items-end px-2 md:px-6 lg:px-10 pb-2 md:pb-4">
             {/* Headline with line-by-line animation */}
             <div className="pointer-events-auto max-w-[420px]">
-              <h2 className="text-[#faf8f5] text-xl md:text-[1.8rem] lg:text-[2.2rem] font-medium leading-[1.15] tracking-[-0.02em]">
+              <h2
+                className="text-[#faf8f5] text-xl md:text-[2rem] lg:text-[2.5rem] font-semibold leading-[1.1] tracking-[-0.02em]"
+                style={{ textShadow }}
+              >
                 <span className="overflow-hidden block">
                   <span className="hero-subtitle-line block">Transform Any Venue</span>
                 </span>
                 <span className="overflow-hidden block">
                   <span className="hero-subtitle-line block">
-                    Into A <span className="text-[#e8b4b8]">Feeling</span>.
+                    Into A <em className="text-[#D4896A] font-bold not-italic">Feeling</em>.
                   </span>
                 </span>
               </h2>
             </div>
 
-            {/* Center - Scroll Indicator Only */}
+            {/* Center - Animated Scroll Line */}
             <div className="absolute bottom-5 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center">
-              {/* Scroll Indicator */}
-              <div className="scroll-indicator hidden md:flex flex-col items-center gap-2 text-[#faf8f5]/70">
-                <span className="text-[10px] tracking-[0.3em] uppercase">Scroll</span>
-                <div className="scroll-indicator-arrow w-[1px] h-8 bg-gradient-to-b from-[#faf8f5]/70 to-transparent"></div>
+              <div className="scroll-line hidden md:block w-[1px] h-12 bg-[#faf8f5]/20 relative overflow-hidden">
+                {/* Animated pulse line */}
+                <div className="scroll-line-inner absolute top-0 left-0 w-full h-3 bg-gradient-to-b from-[#faf8f5]/60 via-[#faf8f5]/40 to-transparent"></div>
               </div>
             </div>
 
-            {/* Description */}
-            <div className="hero-description pointer-events-auto text-right max-w-[280px] md:max-w-sm">
-              <p className="text-[#faf8f5]/85 text-xs md:text-sm font-light leading-relaxed tracking-wide">
+            {/* Description with vertical separator */}
+            <div className="hero-description pointer-events-auto text-right max-w-[280px] md:max-w-sm flex items-center gap-4 md:gap-6">
+              {/* Thin vertical separator line */}
+              <div className="hidden md:block w-[1px] h-12 bg-[#faf8f5]/20 self-stretch"></div>
+              <p
+                className="text-[#faf8f5]/80 text-xs md:text-[0.85rem] font-light leading-relaxed tracking-[0.04em]"
+                style={{ textShadow: "0 1px 3px rgba(0,0,0,0.2)" }}
+              >
                 Luxury scent diffuser rentals for weddings
                 <br className="hidden md:block" />
                 <span className="md:hidden"> </span>
@@ -270,8 +346,8 @@ const Hero = () => {
         </div>
 
         {/* Decorative corner accents */}
-        <div className="absolute top-8 left-8 w-16 h-16 border-l border-t border-[#faf8f5]/20 rounded-tl-2xl z-20 pointer-events-none hidden md:block"></div>
-        <div className="absolute bottom-8 right-8 w-16 h-16 border-r border-b border-[#faf8f5]/20 rounded-br-2xl z-20 pointer-events-none hidden md:block"></div>
+        <div className="absolute top-8 left-8 w-16 h-16 border-l border-t border-[#faf8f5]/15 rounded-tl-2xl z-20 pointer-events-none hidden md:block"></div>
+        <div className="absolute bottom-8 right-8 w-16 h-16 border-r border-b border-[#faf8f5]/15 rounded-br-2xl z-20 pointer-events-none hidden md:block"></div>
       </div>
     </section>
   );
